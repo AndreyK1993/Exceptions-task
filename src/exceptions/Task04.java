@@ -2,9 +2,9 @@ package exceptions;
 
 import java.util.Scanner;
 
-// Кастомний виняток
-class InvalidNumberException extends Exception {
-    public InvalidNumberException(String message) {
+// Кастомный виняток
+class InvalidTemperatureException extends Exception {
+    public InvalidTemperatureException(String message) {
         super(message);
     }
 }
@@ -12,34 +12,37 @@ class InvalidNumberException extends Exception {
 public class Task04 {
 
     static Scanner scanner;
-    static int number;
+    static int temperature;
 
     public static void main(String[] args) {
 
         scanner = new Scanner(System.in);
-        System.out.print("Enter number (from -10 to +35, inclusive): ");
-        number = scanner.nextInt();
+        System.out.print("Enter the current temperature (from -10 to +35, inclusive): ");
+        temperature = scanner.nextInt();
 
         try {
             // Виклик методу
-            validateNumber(number);
+            validateTemperature(temperature);
+            System.out.println("The device is operating within the temperature range.");
 
-        } catch (InvalidNumberException ex) {
-            System.out.println("Caught an exception.");
+        } catch (InvalidTemperatureException ex) {
             // Повідомлення кастомного винятку
-            System.out.println("An exception has occurred: " + ex);
+            System.out.println("Temperature out of range: " + ex);
+        } finally {
+            scanner.close();
         }
+
         System.out.println("Further down the code...");
     }
 
     // Метод валідації
-    static void validateNumber(int number) throws InvalidNumberException {
-        if (number >= -10 && number <= 3) {
-            System.out.println("OK. Number: " + number);
+    static void validateTemperature(int temperature) throws InvalidTemperatureException {
+        if (temperature >= -10 && temperature <= 35) {
+            System.out.println("OK. Temperature: " + temperature);
         } else {
             // Викид кастомного винятку
-            throw new InvalidNumberException("\nNumber " + number +
-                    " is wrong!");
+            throw new InvalidTemperatureException("\nTemperature " + temperature +
+                    " is out of range!");
         }
     }
 }
